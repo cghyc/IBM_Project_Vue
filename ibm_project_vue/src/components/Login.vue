@@ -9,7 +9,10 @@
           <el-form label-width="80px" class="login_form">
               <!-- 用户名 -->
              <el-form-item label="用户名">
-                <el-input placeholder="请输入用户名"></el-input>
+                <el-input 
+                prefix-icon=""
+                placeholder="请输入用户名">
+                </el-input>
              </el-form-item>
              <!-- 密码 -->
              <el-form-item label="密码">
