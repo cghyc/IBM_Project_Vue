@@ -16,7 +16,10 @@
              </el-form-item>
              <!-- 密码 -->
              <el-form-item label="密码">
-                <el-input ></el-input>
+                <el-input 
+                prefix-icon=""
+                placeholder="请输入密码">
+                </el-input>
              </el-form-item>
              <!-- 按钮 -->
              <el-form-item label-width="0px" class="btns">
