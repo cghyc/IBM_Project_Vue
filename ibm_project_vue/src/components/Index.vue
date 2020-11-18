@@ -2,13 +2,13 @@
   <div class="page-index"> 
     
     <div class="page-find">
-
+     <!---->
     <el-table
     :data="tableData"
     height="450"
     :header-cell-style="{background:'rgb(131, 214, 247)',color:'#000'}"
     style="width: 100%" class="query-table">
-        
+      <!--ID-->  
     <el-table-column
       label="ID"
       width="180">
@@ -16,7 +16,7 @@
         <span >{{ scope.row.ID }}</span>
       </template>
     </el-table-column>
-
+     <!--名字-->
     <el-table-column
       label="姓名"
       width="180">
@@ -24,7 +24,7 @@
          <span>{{ scope.row.name }}</span>
       </template>
     </el-table-column>
-
+     <!--工资-->
     <el-table-column
       label="工资"
       width="180">
@@ -32,7 +32,7 @@
          <span>{{ scope.row.wages }}</span>
       </template>
     </el-table-column>
-
+     <!--年龄-->
     <el-table-column
       label="年龄"
       width="180">
@@ -47,7 +47,7 @@
           size="mini"
           type="danger"
           @click="handleDelete(scope.$index, scope.row) , dialogVisible=true">删除信息</el-button>
-
+          <!--删除信息-->
           <el-dialog
              :visible.sync="dialogVisible"
              width="30%"
@@ -58,7 +58,7 @@
              <el-button type="primary" @click="dialogVisible = false">是</el-button>
          </span>
         </el-dialog>
-
+          <!--修改信息-->
         <el-button
           size="mini"
           style="margin-left:10px"
@@ -66,7 +66,7 @@
       </template>
     </el-table-column>
   </el-table>
-
+    <!--添加信息-->
   <el-button type="primary" class="add-info" @click="onAddInfo">添加员工信息</el-button>
 </div>
 
