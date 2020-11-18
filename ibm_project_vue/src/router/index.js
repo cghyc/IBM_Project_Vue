@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import Login from "../components/Login.vue"
 import Index from "../components/Index.vue"
 import Home from "../components/Home.vue"
+import Addinfo from "../components/Addinfo.vue"
 
 Vue.use(VueRouter);
 
@@ -10,7 +11,8 @@ const routes = [
   {path:"/",redirect:'/login'},// 重定向地址
   {path: '/login', component:Login},
   {path: '/index', component:Index },
-  {path: '/home', component: Home }
+  {path: '/home', component: Home },
+  {path: '/add', component: Addinfo },
 ];
 
 const router = new VueRouter({

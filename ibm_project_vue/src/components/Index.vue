@@ -66,6 +66,8 @@
       </template>
     </el-table-column>
   </el-table>
+
+  <el-button type="primary" class="add-info" @click="onAddInfo">添加员工信息</el-button>
 </div>
 
 
@@ -121,12 +123,17 @@
       },
       handleDelete(index, row) {
         console.log(index, row);
+      },
+      onAddInfo(){
+        this.$router.replace('/add')
       }
+
     }
   }
 </script>
 
-<style>
+<style lang="less" scoped>
+
 .page-find{
     position: relative;
     top:150px;
@@ -137,5 +144,10 @@
 .di-text{
     display: block;
     text-align: center;
+}
+.add-info{
+  position:absolute;
+  top: 500px;
+  left: 400px;
 }
 </style>
