@@ -11,8 +11,17 @@ import './plugins/element.js'
 
 //导入axios
 import axios from 'axios'
+// import { config } from "vue/types/umd";
 //配置请求的根路径
 axios.defaults.baseURL = 'http://119.23.53.78:8888/api/private/v1'
+//拦截器
+axios.interceptors.request.use(config => {
+  console.log(config)
+  //需要授权的API，必须在请求头中使用 Authorrization 字段提供 token 令牌
+  config.headers.Authorization = window.sessionStorage.getItem('token')
+  //在最后必须 return config
+  return config
+})
 Vue.prototype.$http = axios
 
 Vue.config.productionTip = false;

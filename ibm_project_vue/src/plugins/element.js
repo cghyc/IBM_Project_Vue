@@ -7,12 +7,16 @@ import Vue from 'vue'
 // //导入弹窗提示组件
 // import { Message } from 'element-ui'
 
-import { Button, 
+import { 
+    Button, 
     Form, FormItem, 
     Input, 
     Table, TableColumn,
     Dialog,
-    Message } from 'element-ui'
+    Message,
+    Container,Header,Aside,Main,
+    Menu,Submenu,MenuItemGroup,MenuItem 
+} from 'element-ui'
 
 Vue.use(Button)
 Vue.use(Form)
@@ -21,5 +25,15 @@ Vue.use(Input)
 Vue.use(Table)
 Vue.use(TableColumn)
 Vue.use(Dialog)
+Vue.use(Container)
+Vue.use(Header)
+Vue.use(Aside)
+Vue.use(Main)
+Vue.use(Menu)
+Vue.use(Submenu)
+Vue.use(MenuItemGroup)
+Vue.use(MenuItem)
+
+
 //将Message挂载到Vue的原型对象上，每个组件可以使用this.$message使用
 Vue.prototype.$message = Message

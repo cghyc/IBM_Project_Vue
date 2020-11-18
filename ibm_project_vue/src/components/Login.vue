@@ -3,7 +3,7 @@
     <div class="login_box">
       <!-- 头像区域 -->
       <div class="avatar_box">
-        <img src="../assets/logo.png" alt="" />
+        <img src="../assets/icon_set.png" alt="" />
       </div>
       <!-- 登录表单区域 -->
       <el-form ref="loginFormRef" :model="loginForm" :rules="loginFormRules" label-width="0px" class="login_form">
@@ -68,7 +68,6 @@ export default {
                 window.sessionStorage.setItem("token",res.data.token);
                 //2.通过编程式导航跳转到后台主页面，路由地址是 /home
                 this.$router.push("/home");
-                
             }) 
         }
     },
