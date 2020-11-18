@@ -10,9 +10,11 @@ Vue.use(VueRouter);
 const routes = [
   {path:"/",redirect:'/login'},// 重定向地址
   {path: '/login', component:Login},
-  {path: '/index', component:Index },
-  {path: '/home', component: Home },
-  {path: '/add', component: Addinfo },
+  
+  //访问 home 重定向到 index  
+  {path: '/home', component: Home, 
+    redirect: '/index',
+    children: [{path: '/index', component:Index },{path: '/add', component: Addinfo }] },
 ];
 
 const router = new VueRouter({

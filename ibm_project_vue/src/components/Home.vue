@@ -12,20 +12,20 @@
     <!-- 页面主体区域 -->
     <el-container>
       <!-- 侧边栏 -->
-      <el-aside width="200px">
+      <el-aside :width="isCollapse ? '64px' : '170px'">
           <!-- 侧边栏菜单区域 -->
         <el-menu
           background-color="#545c64"
           text-color="#fff"
-          active-text-color="#ffd04b" unique-opened :collapse="false" >
+          active-text-color="#ffd04b" unique-opened :collapse="isCollapse" :collapse-transition="false" :router="true">
 
           <!-- 一级菜单 -->
-          <el-menu-item index="1" >
+          <el-menu-item index="home" >
             <i class="el-icon-document"></i>
             <span slot="title">查看员工信息</span>
           </el-menu-item>
 
-          <el-menu-item index="2" >
+          <el-menu-item index="add" >
             <i class="el-icon-setting"></i>
             <span slot="title">增加员工信息</span>
           </el-menu-item>
@@ -50,17 +50,26 @@
             
           
         </el-menu>
-        <!-- <div class="toggle-button" @click="toggleCollapse">||</div> -->
+        <div class="toggle-button" @click="toggleCollapse">||</div>
       </el-aside>
 
       <!-- 右侧内容主体 -->
-      <el-main>Main</el-main>
+      <el-main>
+        <router-view></router-view>
+      </el-main>
     </el-container>
   </el-container>
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+      //是否折叠
+      isCollapse: false
+    }
+  },
+
   methods: {
     //退出功能，先清除 token，然后跳转到 login 页面
     logout() {
@@ -70,7 +79,7 @@ export default {
 
     //点击按钮，切换菜单栏最下化
     toggleCollapse() {
-        
+      this.isCollapse = ! this.isCollapse 
     },
   },
 };
@@ -125,8 +134,7 @@ export default {
     color: #fff;
     text-align: center;
     cursor: pointer;
-    // position: fixed;
-    // bottom: 0;
+
 }
 
 </style>
