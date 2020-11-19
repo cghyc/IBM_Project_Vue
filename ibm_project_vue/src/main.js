@@ -13,7 +13,7 @@ import './plugins/element.js'
 import axios from 'axios'
 // import { config } from "vue/types/umd";
 //配置请求的根路径
-axios.defaults.baseURL = 'http://119.23.53.78:8888/api/private/v1'
+axios.defaults.baseURL = 'http://localhost:8080/'
 //拦截器
 axios.interceptors.request.use(config => {
   console.log(config)

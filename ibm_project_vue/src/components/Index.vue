@@ -10,35 +10,27 @@
     style="width: 100%" class="query-table">
       <!--ID-->  
     <el-table-column
+      prop="id"
       label="ID"
       width="180">
-      <template slot-scope="scope">
-        <span >{{ scope.row.ID }}</span>
-      </template>
     </el-table-column>
      <!--名字-->
     <el-table-column
+      prop="name"
       label="姓名"
       width="180">
-      <template slot-scope="scope">
-         <span>{{ scope.row.name }}</span>
-      </template>
     </el-table-column>
      <!--工资-->
     <el-table-column
+      prop="salary"
       label="工资"
-      width="180">
-      <template slot-scope="scope">
-         <span>{{ scope.row.wages }}</span>
-      </template>
+      width="180" >
     </el-table-column>
      <!--年龄-->
     <el-table-column
+      prop="age"
       label="年龄"
       width="180">
-      <template slot-scope="scope">
-         <span>{{ scope.row.age }}</span>
-      </template>
     </el-table-column>
 
     <el-table-column label="操作">
@@ -68,6 +60,7 @@
   </el-table>
     <!--添加信息-->
   <el-button type="primary" class="add-info" @click="onAddInfo">添加员工信息</el-button>
+
 </div>
 
 
@@ -82,41 +75,15 @@
 
          dialogVisible: false,
 
-        tableData: [{
-          ID: '1234',
-          name: '王小虎',
-          wages: '10000',
-          age: '18'
-        },{
-          ID: '1234',
-          name: '王小虎',
-          wages: '10000',
-          age: '18'
-        },{
-          ID: '1234',
-          name: '王小虎',
-          wages: '10000',
-          age: '18'
-        },{
-          ID: '1234',
-          name: '王小虎',
-          wages: '10000',
-          age: '18'
-        },{
-          ID: '1234',
-          name: '王小虎',
-          wages: '10000',
-          age: '18'
-        },{
-          ID: '1234',
-          name: '王小虎',
-          wages: '10000',
-          age: '18'
-        },]
-      }
-
-      
+        tableData: [],
+        
+      }      
     },
+
+    created() {
+      this.getUsersList()
+    },
+
     methods: {
       handleEdit(index, row) {
         console.log(index, row);
@@ -126,6 +93,15 @@
       },
       onAddInfo(){
         this.$router.replace('/add')
+      },
+
+      async getUsersList() {
+        this.$http.get('/getAllEmployee').then(res=>{
+          this.tableData=res.data
+        })
+        // const {data: res} = await this.$http.get('/getAllEmployee')
+        // console.log(res)
+        
       }
 
     }
