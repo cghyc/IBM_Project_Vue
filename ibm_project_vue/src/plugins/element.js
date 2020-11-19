@@ -11,7 +11,7 @@ import {
     Button, 
     Form, FormItem, 
     Input, 
-    Table, TableColumn,
+    Table, TableColumn,RadioGroup,Radio,
     Dialog,
     Message,
     Container,Header,Aside,Main,
@@ -33,6 +33,8 @@ Vue.use(Menu)
 Vue.use(Submenu)
 Vue.use(MenuItemGroup)
 Vue.use(MenuItem)
+Vue.use(RadioGroup)
+Vue.use(Radio)
 
 
 //将Message挂载到Vue的原型对象上，每个组件可以使用this.$message使用

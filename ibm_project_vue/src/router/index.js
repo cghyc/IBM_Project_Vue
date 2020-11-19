@@ -4,13 +4,15 @@ import Login from "../components/Login.vue"
 import Index from "../components/Index.vue"
 import Home from "../components/Home.vue"
 import Addinfo from "../components/Addinfo.vue"
+import Res from "../components/Register.vue"
 
 Vue.use(VueRouter);
 
 const routes = [
   {path:"/",redirect:'/login'},// 重定向地址
   {path: '/login', component:Login},
-  
+  {path: '/res', component: Res},
+
   //访问 home 重定向到 index  
   {path: '/home', component: Home, 
     redirect: '/index',

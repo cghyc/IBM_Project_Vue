@@ -70,7 +70,9 @@
           let url="/addEmploy";
           this.$http.post(url,this.form).then(res=>{
             console.log("response...",res)
-          }).catch(err=>console.log("error...",err));
+            this.$message.success("添加成功>-<")
+          }).catch(err=>{console.log("error...",err); this.$message.error('添加失败！')});
+          
     
         
         // this.$refs.form.validate(async(valid)=>{
