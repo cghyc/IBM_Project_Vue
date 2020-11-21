@@ -5,6 +5,7 @@ import Index from "../components/Index.vue"
 import Home from "../components/Home.vue"
 import Addinfo from "../components/Addinfo.vue"
 import Res from "../components/Register.vue"
+import Page404 from "../components/404.vue"
 
 Vue.use(VueRouter);
 
@@ -13,10 +14,14 @@ const routes = [
   {path: '/login', component:Login},
   {path: '/res', component: Res},
 
+
+
   //访问 home 重定向到 index  
   {path: '/home', component: Home, 
     redirect: '/index',
     children: [{path: '/index', component:Index },{path: '/add', component: Addinfo }] },
+  //网页链接不存在 跳到 404
+  { path: '*', component: Page404 },
 ];
 
 const router = new VueRouter({
