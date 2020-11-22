@@ -6,6 +6,7 @@ import Home from "../components/Home.vue"
 import Addinfo from "../components/Addinfo.vue"
 import Res from "../components/Register.vue"
 import Page404 from "../components/404.vue"
+import Newhome from "../components/Newhome.vue"
 
 Vue.use(VueRouter);
 
@@ -14,7 +15,9 @@ const routes = [
   {path: '/login', component:Login},
   {path: '/res', component: Res},
 
-
+  {path: '/new', component: Newhome, 
+  redirect: '/index',
+  children: [{path: '/index', component:Index },{path: '/add', component: Addinfo }] },
 
   //访问 home 重定向到 index  
   {path: '/home', component: Home, 
