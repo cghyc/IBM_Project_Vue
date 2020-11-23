@@ -3,8 +3,8 @@
     <!-- 头部区域 -->
     <el-header style="height:80px">
       <div>
-        <img src="../assets/icon_project.png" alt="" />
-        <span>员工信息管理系统</span>
+        <img src="../assets/logo_yg.png" alt="" />
+        
       </div>
       <el-button type="text"  @click="logout"> 退出 </el-button>
     </el-header>
@@ -65,15 +65,12 @@ export default {
   > div {
     display: flex;
     align-items: center;
-    span {
-      margin-left: 15px;
-    }
   }
 }
 
 .el-header img {
-  height: 50px;
-  width: 50px;
+  height: 100px;
+  width: 500px;
 }
 
 

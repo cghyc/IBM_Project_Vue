@@ -8,9 +8,9 @@ import './assets/fonts/iconfont.css'
 import "./assets/css/global.css"
 import './plugins/element.js'
 // 引入echarts
-import echarts from 'echarts'
+// import echarts from 'echarts'
 
-Vue.prototype.$echarts = echarts 
+// Vue.prototype.$echarts = echarts 
 
 //导入axios
 import axios from 'axios'

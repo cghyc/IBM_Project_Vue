@@ -223,13 +223,9 @@
       //员工信息删除方法
       del() {
         console.log(this.id);
-        this.$http.get('/delEmpById',{
-          params:  {
-            id:this.id
-          }   
-        }).then(ret=>{
+        this.$http.get('/delEmpById/'+this.id).then(ret=>{
             console.log(ret.data)
-            if(ret.data) return this.$router.push("/home");
+            if(ret.data) this.getUsersList();
                 else return this.$message.error('删除失败！');
         })
 
@@ -261,6 +257,7 @@
             this.$message.success('添加成功>-<');
             this.getUsersList();
             this.cancelForm();
+            this.$refs.formRef.resetFields();
           })  
           
       },
