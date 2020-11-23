@@ -7,10 +7,10 @@ import './assets/fonts/iconfont.css'
 //导入全局样式表
 import "./assets/css/global.css"
 import './plugins/element.js'
-// 引入echarts
-// import echarts from 'echarts'
+//引入echarts
+import echarts from 'echarts'
 
-// Vue.prototype.$echarts = echarts 
+Vue.prototype.$echarts = echarts 
 
 //导入axios
 import axios from 'axios'

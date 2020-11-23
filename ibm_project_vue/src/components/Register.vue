@@ -1,9 +1,12 @@
 <template>
   <div class="register_container">
+    <div >
+      <img src="../assets/logo_yg2.png" alt="" class="logo">
+    </div>
     <div class="register_box">
       <!-- 头像区域 -->
       <div class="avatar_box">
-        <img src="../assets/icon_set.png" alt="" />
+        <img src="../assets/icon_reg.png" alt="" />
       </div>
       <!-- 登录表单区域 -->
       <el-form ref="registerFormRef" :model="registerForm" :rules="registerFormRules" label-width="0px" class="register_form">
@@ -109,6 +112,7 @@ export default {
                     { required: true, message: '请输入登录密码', trigger: 'blur' },
                     { min: 1, max: 30, message: '长度在 1 到 30 个字符', trigger: 'blur' }
                 ],
+                
 
             },
 
@@ -161,7 +165,7 @@ export default {
           // }).catch(err=>{console.log("error...",err);this.$message.error('添加失败！')});
 
           this.$refs.registerFormRef.validate(async(valid)=>{
-            if (!valid) return this.$message.error('请正确填写！');
+            if (!valid) return this.$message.error('请正确填写注册信息！');
             const {data:res} = await this.$http.post('/register',this.registerForm);
             if (!res) return this.$message.error('注册失败！');
             this.$message.success('注册成功>-<');
@@ -200,18 +204,29 @@ export default {
 
 <style lang="less" scoped>
 .register_container {
-  background-color: #2b4b6b;
+  background: url(../assets/login_bg.png);
   height: 100%;
 }
+
+.logo {
+  height: 100px;
+  width: 400px;
+  position: absolute;
+  top: 20px;
+  left: 1050px;
+
+}
+
+
 .register_box {
   width: 450px;
   height: 650px;
-  background-color: #fff;
+  background-color: #fcfcfc;
   border-radius: 3px;
   position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -45%);
 
   .avatar_box {
     height: 130px;

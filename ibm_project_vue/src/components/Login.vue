@@ -1,5 +1,8 @@
 <template>
   <div class="login_container">
+    <div>
+      <img src="../assets/logo_yg2.png" alt="" class="logo">
+    </div>
     <div class="login_box">
       <!-- 头像区域 -->
       <div class="avatar_box">
@@ -70,7 +73,7 @@ export default {
                 // //  1.2 token 只在当前网站打开期间生效，所以将 token 保存在 sessionStorage 中
                 // window.sessionStorage.setItem("token",res.data.token);
                 //2.通过编程式导航跳转到后台主页面，路由地址是 /home
-                if(res) return this.$router.push("/home");
+                if(res)  return this.$router.push("/home")+this.$message.success('登录成功！'); 
                 else return this.$message.error('登录失败！');
                 
             }) 
@@ -86,13 +89,24 @@ export default {
 
 <style lang="less" scoped>
 .login_container {
-  background-color: #2b4b6b;
+  // background-color: #b8e5f8;
+  background: url(../assets/login_bg.png);
   height: 100%;
 }
+
+.logo {
+  position:absolute;
+  height: 100px;
+  width: 400px;
+  left: 50%;
+  top: 50px;
+  transform: translate(-50% ,);
+}
+
 .login_box {
   width: 450px;
   height: 300px;
-  background-color: #fff;
+  background-color: #fcfcfc;
   border-radius: 3px;
   position: absolute;
   left: 50%;

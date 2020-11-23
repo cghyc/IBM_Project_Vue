@@ -32,13 +32,11 @@ export default {
     //退出功能，先清除 token，然后跳转到 login 页面
     logout() {
       window.sessionStorage.clear();
+      this.$message.success('退出成功>-<');
       this.$router.push("/login");
     },
 
-    //点击按钮，切换菜单栏最下化
-    toggleCollapse() {
-      this.isCollapse = ! this.isCollapse 
-    },
+  
   },
 };
 </script>
@@ -69,8 +67,9 @@ export default {
 }
 
 .el-header img {
+  margin-top: 20px;
   height: 100px;
-  width: 500px;
+  width: 480px;
 }
 
 

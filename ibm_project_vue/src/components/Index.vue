@@ -1,10 +1,21 @@
 <template>
-  <div class="page-index"> 
+  <div class="page-index">
+    
+    <!--表格对话框-->
+    <el-dialog :visible.sync="dialogFun" width="650px" >
+      <div
+        id="myChart"
+        :style="{ width: '500px', height: '400px', margin: '0 auto' }"
+      ></div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogFun = false">取 消</el-button>
+      </span>
+    </el-dialog> 
     <div class="page-find">
      <!--表格-->
     <el-table
     :data="tableData"
-    height="450"
+    height="500"
     :header-cell-style="{color:'#000'}"
     style="width: 100%" class="query-table"  >
       <!--ID-->  
@@ -40,6 +51,7 @@
           @click="handleDelete(scope.$index, scope.row) , dialogVisible=true">删除信息</el-button>
           <!--删除信息-->
           <el-dialog
+             :show-close="false"
              :visible.sync="dialogVisible"
              width="30%"
              :before-close="handleDelete">
@@ -58,8 +70,27 @@
       </template>
     </el-table-column>
   </el-table>
+
+  
+  <el-pagination class="pag"
+    background
+    layout="prev, pager, next"
+    :current-page="currentPage"
+    :page-size="pageSize"
+    @current-change="handleCurrentPage"
+    :total="1000">
+  </el-pagination>
+
+
     <!--添加信息-->
   <el-button type="info" round size="mini" @click="dialog = true" class="button_add">添加员工信息</el-button>
+<!--表格按钮-->
+<div class="button_tj">
+      <el-button @click="dialogFun1" type="info" round size="mini">工资份额</el-button>
+      <el-button @click="dialogFun2" type="info" round size="mini">年龄分布</el-button>
+      </div>
+
+
  <!--员工添加抽屉-->
   <el-drawer
   title="添加员工信息"
@@ -151,9 +182,17 @@
         table: false,
         dialog: false,
         loading: false,
-
+        dialogFun: false,
         dialogEdit:false,
         loading2:false,
+
+        currentPage:1,
+        pageSize:8,
+
+        form3: {
+          page: 1,
+          size: 8
+        },
 
         form2: {
           id: '',
@@ -198,7 +237,8 @@
     },
 
     created() {
-      this.getUsersList()   
+      // this.getUsersList();
+       this.onePage();
     },
 
     methods: {
@@ -225,7 +265,7 @@
         console.log(this.id);
         this.$http.get('/delEmpById/'+this.id).then(ret=>{
             console.log(ret.data)
-            if(ret.data) this.getUsersList();
+            if(ret.data) this.getUsersList()+this.$message.success('删除成功！');
                 else return this.$message.error('删除失败！');
         })
 
@@ -266,7 +306,7 @@
          console.log(this.form2);
          this.$refs.formRef2.validate(async(valid)=>{
                 //验证表单输入是否合法
-                if (!valid) return;
+                if (!valid) return this.$message.error('请正确填写信息!');
                 //通过Axios发送post请求，并将返回结果从promise使用 async await 过滤
                 const {data:res} = await this.$http.post('/updateEmp',this.form2);
                  if (!res) return this.$message.error('修改失败！');
@@ -298,7 +338,176 @@
         clearTimeout(this.timer);
      },
 
+      handleCurrentPage(current){
+        this.form3.page=current;
+        this.$http.post('/getEmpByPage',this.form3).then(res=>{
+          console.log(res.data)
+          this.tableData=res.data.rows
+          // console.log(res.page)
+        })
+        // console.log(current)
+      },
+      onePage(){
+        this.form.page=1;
+        this.$http.post('/getEmpByPage',this.form3).then(res=>{
+          console.log(res.data)
+          this.tableData=res.data.rows
+          // console.log(res.page)
+        })
+        // console.log(current)
+      },
 
+
+       //饼图按钮
+    dialogFun1() {
+      this.dialogFun = true;
+      setTimeout(() => {
+        this.drawLine1();
+      }, 500);
+    },
+    dialogFun2() {
+      this.dialogFun = true;
+      setTimeout(() => {
+        this.drawLine2();
+      }, 500);
+    },
+    // 图表数据--------------------------------------------------------------------------
+    drawLine1() {
+      // 基于准备好的dom，初始化echarts实例
+      let myChart = this.$echarts.init(document.getElementById("myChart"));
+       var low=0;
+       var low1=0;
+       var mid=0;
+       var high=0;
+       var high1=0;
+       var count=0;
+       var count1=0;
+       var count2=0;
+       var count3=0;
+       var count4=0;
+       for(var i=0;i<this.tableData.length;i++)
+       {
+         if(this.tableData[i].salary<2000){
+           count++
+         }else if(this.tableData[i].salary>=2000&this.tableData[i].salary<5000){
+           count1++
+         }else if(this.tableData[i].salary>=5000&this.tableData[i].salary<8000){
+           count2++
+         }else if(this.tableData[i].salary>=8000&this.tableData[i].salary<10000){
+            count3++
+         }
+           else{
+           count4++
+         }
+       } 
+       low = low + count;
+       low1 = low1 + count1;
+       mid = mid + count2;
+       high = high + count3;
+       high1 = high1 + count4;
+      myChart.setOption({
+        title: {
+          text: "员工工资比重",
+          left: "center"
+        },
+        tooltip: {
+          trigger: "item",
+          formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+
+        series: [
+          {
+            name: "访问来源",
+            type: "pie",
+            top:"10%",
+            radius: "75%",
+            center: ["50%", "50%"],
+            data: [
+              {value: low , name: '0-2000'},
+              {value: low1 , name: '2000-5000'},
+              {value: mid , name: '5000-8000'},
+              {value: high , name: '8000-10000'},
+              {value: high1 , name: '>10000'}
+            ],
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: "rgba(0, 0, 0, 0.5)"
+              }
+            }
+          }
+        ]
+      });
+    },
+    drawLine2() {
+      // 基于准备好的dom，初始化echarts实例
+      let myChart = this.$echarts.init(document.getElementById("myChart"));
+       var low=0;
+       var low1=0;
+       var mid=0;
+       var high=0;
+       var high1=0;
+       var count=0;
+       var count1=0;
+       var count2=0;
+       var count3=0;
+       var count4=0;
+       for(var i=0;i<this.tableData.length;i++)
+       {
+         if(this.tableData[i].age<20){
+           count++
+         }else if(this.tableData[i].age>=20&this.tableData[i].age<35){
+           count1++
+         }else if(this.tableData[i].age>=35&this.tableData[i].age<45){
+           count2++
+         }else if(this.tableData[i].age>=45&this.tableData[i].age<55){
+            count3++
+         }
+           else{
+           count4++
+         }
+       } 
+       low = low + count;
+       low1 = low1 + count1;
+       mid = mid + count2;
+       high = high + count3;
+       high1 = high1 + count4;
+      myChart.setOption({
+        title: {
+          text: "年龄分布",
+          left: "center"
+        },
+        tooltip: {
+          trigger: "item",
+          formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+
+        series: [
+          {
+            name: "访问来源",
+            type: "pie",
+            top:"10%",
+            radius: "75%",
+            center: ["50%", "50%"],
+            data: [
+              {value: low , name: '0-20'},
+              {value: low1 , name: '20-35'},
+              {value: mid , name: '35-45'},
+              {value: high , name: '45-55'},
+              {value: high1 , name: '>55'}
+            ],
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: "rgba(0, 0, 0, 0.5)"
+              }
+            }
+          }
+        ]
+      });
+    },
 
     }
   }
@@ -307,9 +516,9 @@
 <style lang="less" scoped>
 
 .page-find{
-    position: relative;
-    top:12%;
-    left: 15%;
+    position:absolute;
+    top:17%;
+    left: 21%;
     width:950px;
     
 }
@@ -343,8 +552,18 @@
   left: 400px;
 }
 
+.el-pagination{
+  text-align: center;
+}
+
 .button_add {
   margin-top: 25px;
+}
+
+.button_tj{
+  position:absolute;
+  left: 82%;
+  bottom: 1%;
 }
 
 .add-form {
