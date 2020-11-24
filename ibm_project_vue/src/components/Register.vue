@@ -106,7 +106,8 @@ export default {
                 ],
                 realname: [
                     { required: true, message: '请输入真实性名', trigger: 'blur' },
-                    { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
+                    { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' },
+                    {pattern: /^[\u4e00-\u9fa5]+$/, message: '请输入中文'}
                 ],
                 password: [
                     { required: true, message: '请输入登录密码', trigger: 'blur' },

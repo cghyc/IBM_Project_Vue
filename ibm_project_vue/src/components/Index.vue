@@ -141,7 +141,7 @@
     <el-form ref="formRef2" :model="form2" label-width="70px" :rules="rules" class="demo-form" label-position="left">
         <!--ID-->
         <el-form-item label="ID" class="in" prop="id" >  
-          <el-input v-model="form2.id" style="width:270px" placeholder="请输入员工ID"></el-input>
+          <el-input v-model="form2.id" style="width:270px" placeholder="请输入员工ID" :disabled="true"></el-input>
         </el-form-item>
         <!--名字-->
         <el-form-item label="名字" class="in" prop="name">
@@ -224,11 +224,11 @@
           ],
           salary:[
               { required: true, message: '请输入员工工资', trigger: 'blur' },
-              { pattern: /^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$/, message: '请输入数字' }
+              { pattern: /^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$/, message: '请输入一个大于0的数字' }
           ],
           age:[
               { required: true, message: '请输入员工年龄', trigger: 'blur' },
-              { pattern: /^[1-9]\d*$/, message: '请输入数字' }
+              { pattern: /^[1-9]\d*$/, message: '请输入一个大于0的数字' }
           ]
        }
 
