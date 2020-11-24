@@ -86,8 +86,8 @@
   <el-button type="info" round size="mini" @click="dialog = true" class="button_add">添加员工信息</el-button>
 <!--表格按钮-->
 <div class="button_tj">
-      <el-button @click="dialogFun1" type="info" round size="mini">工资份额</el-button>
-      <el-button @click="dialogFun2" type="info" round size="mini">年龄分布</el-button>
+      <el-button @click="dialogFun1" type="info" round size="mini">工资份额统计</el-button>
+      <el-button @click="dialogFun2" type="info" round size="mini">年龄分布统计</el-button>
       </div>
 
 
@@ -263,7 +263,7 @@
       //员工信息删除方法
       del() {
         console.log(this.id);
-        this.$http.get('/delEmpById/'+this.id).then(ret=>{
+        this.$http.delete('/delEmpById/'+this.id).then(ret=>{
             console.log(ret.data)
             if(ret.data) this.getUsersList()+this.$message.success('删除成功！');
                 else return this.$message.error('删除失败！');
@@ -562,7 +562,7 @@
 
 .button_tj{
   position:absolute;
-  left: 82%;
+  left: 75%;
   bottom: 1%;
 }
 
