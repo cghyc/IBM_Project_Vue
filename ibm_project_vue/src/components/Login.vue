@@ -65,16 +65,18 @@ export default {
                 //验证登录
 
                 console.log(res);
+                console.log()
 
-                // if(res.meta.status !== 200) return this.$message.error('登录失败！');
-                // this.$message.success('登录成功>_<');
-                // //1.将登录成功之后的token，保存到客户端的 sessionStorage 中
-                // //  1.1项目中除了登录之外的其他API接口，必须在登录之后才能访问
-                // //  1.2 token 只在当前网站打开期间生效，所以将 token 保存在 sessionStorage 中
-                // window.sessionStorage.setItem("token",res.data.token);
-                //2.通过编程式导航跳转到后台主页面，路由地址是 /home
-                if(res)  return this.$router.push("/home")+this.$message.success('登录成功！'); 
-                else return this.$message.error('登录失败！');
+                if(res.eroCode !== 200) return this.$message.error(res.mess);
+                this.$message.success('登录成功>_<');
+                //1.将登录成功之后的token，保存到客户端的 sessionStorage 中
+                //  1.1项目中除了登录之外的其他API接口，必须在登录之后才能访问
+                //  1.2 token 只在当前网站打开期间生效，所以将 token 保存在 sessionStorage 中
+                window.sessionStorage.setItem("token",res.tokenVo[0].token);
+                return this.$router.push("/home")
+                // 2.通过编程式导航跳转到后台主页面，路由地址是 /home
+                // if(res)  return this.$router.push("/home")+this.$message.success('登录成功！'); 
+                // else return this.$message.error('登录失败！');
                 
             }) 
         },
