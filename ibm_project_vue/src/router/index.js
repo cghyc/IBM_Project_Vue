@@ -38,6 +38,7 @@ router.beforeEach((to,from,next) => {
   //next 是一个函数，表示放行{ next（）放行；next（'/login'）强制跳转}
   //如果用户访问登录页，直接放行
   if(to.path == '/login') return next()
+  if (to.path == '/res') return next()
   //从sessionStorage 中获取 token 值
   const tokenStr = window.sessionStorage.getItem('token')
   //没有 token 强制跳转到登录页面

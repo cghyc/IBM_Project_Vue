@@ -1,5 +1,23 @@
 <template>
   <div class="page-index">
+
+    <!-- 查询 -->
+  <div class="find">
+      <el-form ref="formFind" :model="form_find"  :rules="rules" class="demo-form" label-position="left">
+        <!--ID-->
+        <el-form-item label="" class="in" prop="text" >  
+          <el-input v-model="form_find.text" style="width:270px" placeholder="搜一搜" ></el-input>
+          <el-button @click="find">搜一搜</el-button>
+          <el-button @click="find_exit">返回首页</el-button> 
+        </el-form-item>   
+         
+    </el-form>
+
+    
+      
+    </div>
+
+
     
     <!--表格对话框-->
     <el-dialog :visible.sync="dialogFun" width="650px" >
@@ -208,7 +226,10 @@
           salary: '',
           age: ''
         },
-      
+
+        form_find:{
+          text: '',
+        },
 
         formLabelWidth: '80px',
         timer: null,
@@ -229,7 +250,11 @@
           age:[
               { required: true, message: '请输入员工年龄', trigger: 'blur' },
               { pattern: /^[1-9]\d*$/, message: '请输入一个大于0的数字' }
-          ]
+          ],
+          text:[
+              { required: true, message: '搜索为空！', trigger: 'blur' },
+              
+          ],
        }
 
 
@@ -324,6 +349,28 @@
         //     if(ret.data) return this.$router.push("/home");
         //         else return this.$message.error('删除失败！');
         // })
+      },
+
+      find() {
+        console.log(this.form_find.text);
+        this.$refs.formFind.validate(async(valid)=>{
+                //验证表单输入是否合法
+                if (!valid) return this.$message.error('搜索不能为空！');
+            //     //通过Axios发送post请求，并将返回结果从promise使用 async await 过滤
+                const {data:res} = await this.$http.get('/findEmp/'+this.form_find.text);
+                console.log(res);
+                this.tableData=res;
+            //      if (!res) return this.$message.error('修改失败！');
+            // this.$message.success('修改成功>-<');
+            // this.getUsersList();
+            // this.cancelForm2();
+                
+            }) 
+      },
+
+      find_exit() {
+        this.getUsersList();
+        this.$refs.formFind.resetFields();
       },
 
       
@@ -517,7 +564,7 @@
 
 .page-find{
     position:absolute;
-    top:17%;
+    top:20%;
     left: 21%;
     width:950px;
     
@@ -573,5 +620,12 @@
 .demo-drawer__footer{
   float: right;
   margin-right: 45px;
+}
+
+.find {
+ margin-top: 16px;
+ margin-left: 980px;
+
+  
 }
 </style>
