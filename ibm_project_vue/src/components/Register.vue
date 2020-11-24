@@ -13,7 +13,7 @@
        
        <!-- ID -->
        <el-form-item prop="id">
-          <el-input v-model="registerForm.id"  prefix-icon="iconfont icon-user" placeholder="请输入ID">
+          <el-input v-model="registerForm.id"  prefix-icon="iconfont icon-id" placeholder="请输入ID">
           </el-input>
         </el-form-item>
        
@@ -24,7 +24,7 @@
         </el-form-item>
         <!-- 真实姓名 -->
         <el-form-item prop="realname">
-          <el-input v-model="registerForm.realname"  prefix-icon="iconfont icon-user" placeholder="请输入真实姓名">
+          <el-input v-model="registerForm.realname"  prefix-icon="iconfont icon-xingming" placeholder="请输入真实姓名">
           </el-input>
         </el-form-item>
         <!-- 密码 -->
@@ -91,10 +91,10 @@ export default {
         return {
             //这是登录表单的数据绑定对象
             registerForm: {
-                id:'123',
-                username:'admin',
-                realname:'张三',
-                password:'123456',
+                id:'',
+                username:'',
+                realname:'',
+                password:'',
                 sex:'男',
             },
 
@@ -135,7 +135,9 @@ export default {
 			// 注册绘制随机验证码的组件
 			SIdentify
 		},
-	created() {},
+	created() {
+    this.refreshCode();
+  },
 
 
     methods: {

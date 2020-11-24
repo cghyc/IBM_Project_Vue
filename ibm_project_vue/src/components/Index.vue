@@ -96,7 +96,7 @@
     :current-page="currentPage"
     :page-size="pageSize"
     @current-change="handleCurrentPage"
-    :total="1000">
+    :total="total">
   </el-pagination>
 
 
@@ -204,6 +204,7 @@
         dialogEdit:false,
         loading2:false,
 
+        total:'',
         currentPage:1,
         pageSize:8,
 
@@ -290,7 +291,7 @@
         console.log(this.id);
         this.$http.delete('/delEmpById/'+this.id).then(ret=>{
             console.log(ret.data)
-            if(ret.data) this.getUsersList()+this.$message.success('删除成功！');
+            if(ret.data) this.onePage()+this.$message.success('删除成功！');
                 else return this.$message.error('删除失败！');
         })
 
@@ -320,7 +321,7 @@
             const {data:res} = await this.$http.post('/addEmploy',this.form);
             if (!res) return this.$message.error('添加失败！');
             this.$message.success('添加成功>-<');
-            this.getUsersList();
+            this.onePage();
             this.cancelForm();
             this.$refs.formRef.resetFields();
           })  
@@ -336,7 +337,7 @@
                 const {data:res} = await this.$http.post('/updateEmp',this.form2);
                  if (!res) return this.$message.error('修改失败！');
             this.$message.success('修改成功>-<');
-            this.getUsersList();
+            this.onePage();
             this.cancelForm2();
                 
             }) 
@@ -390,6 +391,7 @@
         this.$http.post('/getEmpByPage',this.form3).then(res=>{
           console.log(res.data)
           this.tableData=res.data.rows
+          
           // console.log(res.page)
         })
         // console.log(current)
@@ -399,6 +401,7 @@
         this.$http.post('/getEmpByPage',this.form3).then(res=>{
           console.log(res.data)
           this.tableData=res.data.rows
+          this.total=res.data.total
           // console.log(res.page)
         })
         // console.log(current)
@@ -566,7 +569,7 @@
     position:absolute;
     top:20%;
     left: 21%;
-    width:950px;
+    width:1000px;
     
 }
 /deep/ .el-table thead,.el-table{ color: black; }
@@ -609,6 +612,7 @@
 
 .button_tj{
   position:absolute;
+  width: 500px;
   left: 75%;
   bottom: 1%;
 }
