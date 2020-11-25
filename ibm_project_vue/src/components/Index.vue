@@ -96,7 +96,8 @@
     :current-page="currentPage"
     :page-size="pageSize"
     @current-change="handleCurrentPage"
-    :total="total">
+    :total="total"
+   >
   </el-pagination>
 
 
@@ -110,12 +111,10 @@
 
 
  <!--员工添加抽屉-->
-  <el-drawer
+  <el-dialog
   title="添加员工信息"
   :before-close="handleClose"
   :visible.sync="dialog"
-  direction="ltr"
-  custom-class="demo-drawer"
   ref="drawer"
   :show-close="false">
      <div class="add-form">
@@ -146,16 +145,14 @@
   </div>
 
 <!--员工修改抽屉-->
-</el-drawer>
-  <el-drawer
+  </el-dialog>
+  <el-dialog
   title="修改员工信息"
   :before-close="handleClose2"
   :visible.sync="dialogEdit"
-  direction="rtl"
-  custom-class="demo-drawer"
   ref="drawer2"
   :show-close="false">
-     <div class="add-form2">
+     <div class="add-form">
     <el-form ref="formRef2" :model="form2" label-width="70px" :rules="rules" class="demo-form" label-position="left">
         <!--ID-->
         <el-form-item label="ID" class="in" prop="id" >  
@@ -181,7 +178,7 @@
       <el-button type="primary" @click="onEdit" >修改</el-button>
     </div>
   </div>
-</el-drawer>
+  </el-dialog>
 </div>
 
 </div>
@@ -204,7 +201,7 @@
         dialogEdit:false,
         loading2:false,
 
-        total:'',
+        total:8,
         currentPage:1,
         pageSize:8,
 
@@ -322,6 +319,7 @@
             if (!res) return this.$message.error('添加失败！');
             this.$message.success('添加成功>-<');
             this.onePage();
+            // this.handleCurrentPage(1);
             this.cancelForm();
             this.$refs.formRef.resetFields();
           })  
@@ -370,7 +368,7 @@
       },
 
       find_exit() {
-        this.getUsersList();
+        this.onePage();
         this.$refs.formFind.resetFields();
       },
 
@@ -384,6 +382,7 @@
         this.loading2 = false;
         this.dialogEdit = false;
         clearTimeout(this.timer);
+        this.onePage();
      },
 
       handleCurrentPage(current){
@@ -398,7 +397,10 @@
       },
       onePage(){
         this.form.page=1;
-        this.$http.post('/getEmpByPage',this.form3).then(res=>{
+        this.$http.post('/getEmpByPage',{
+          page: 1,
+          size: 8
+        }).then(res=>{
           console.log(res.data)
           this.tableData=res.data.rows
           this.total=res.data.total
@@ -567,8 +569,8 @@
 
 .page-find{
     position:absolute;
-    top:20%;
-    left: 21%;
+    top:150px;
+    left: 300px;
     width:1000px;
     
 }
@@ -621,15 +623,17 @@
   margin-left: 25px;
 }
 
-.demo-drawer__footer{
-  float: right;
-  margin-right: 45px;
-}
 
 .find {
  margin-top: 16px;
- margin-left: 980px;
+ margin-left: 965px;
+}
 
-  
+/deep/ .el-dialog{
+    width: 450px;
+}
+
+.demo-drawer__footer{
+  left: 0px;
 }
 </style>

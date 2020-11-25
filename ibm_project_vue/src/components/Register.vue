@@ -1,9 +1,10 @@
 <template>
   <div class="register_container">
-    <div >
+    
+    <div class="register_box">
+      <div >
       <img src="../assets/logo_yg2.png" alt="" class="logo">
     </div>
-    <div class="register_box">
       <!-- 头像区域 -->
       <div class="avatar_box">
         <img src="../assets/icon_reg.png" alt="" />
@@ -64,8 +65,13 @@
           <el-button type="info" @click="exit">返回登录</el-button>
         </el-form-item>
       </el-form>
+      <div class="logo_buttom">
+      ©All Rights Reserved 
+      <img class="img_logo" src="../assets/logo_bjwd.png" alt="">
     </div>
   </div>
+    </div>
+    
 </template>
 
 <script>
@@ -100,6 +106,11 @@ export default {
 
             //这是表单的验证规则对象
             registerFormRules: {
+                id: [
+                    { required: true, message: '请输入ID', trigger: 'blur' },
+                    { min: 1, max: 30, message: '长度在 1 到 30 个数字', trigger: 'blur' },
+                    { pattern: /^[1-9]\d*$/, message: '请输入数字' }
+                ],
                 username: [
                     { required: true, message: '请输入登录用户名', trigger: 'blur' },
                     { min: 1, max: 30, message: '长度在 1 到 30 个字符', trigger: 'blur' }
@@ -215,8 +226,8 @@ export default {
   height: 100px;
   width: 400px;
   position: absolute;
-  top: 20px;
-  left: 1050px;
+  left: 460px;
+  transform: translate(0,-80%);
 
 }
 
@@ -261,9 +272,21 @@ export default {
     position: absolute;
     left: 40%;
     transform: translate(-30%);
-  }
-
-  
+  }  
 }
+
+.logo_buttom {
+  width: 271.3px;
+  height: 50px;
+  position: absolute;;
+  bottom: 0;
+  transform: translate(-120%,0);
+ 
+
+}
+.img_logo {
+    height: 40px;
+   
+  }
 
 </style>

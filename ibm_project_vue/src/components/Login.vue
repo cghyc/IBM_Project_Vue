@@ -1,9 +1,10 @@
 <template>
   <div class="login_container">
-    <div>
+    
+    <div class="login_box">
+      <div>
       <img src="../assets/logo_yg2.png" alt="" class="logo">
     </div>
-    <div class="login_box">
       <!-- 头像区域 -->
       <div class="avatar_box">
         <img src="../assets/icon_set.png" alt="" />
@@ -26,6 +27,10 @@
           <el-button type="info" @click="reg">注册</el-button>
         </el-form-item>
       </el-form>
+    </div>
+    <div class="logo_buttom">
+      ©All Rights Reserved 
+      <img class="img_logo" src="../assets/logo_bjwd.png" alt="">
     </div>
   </div>
 </template>
@@ -59,7 +64,7 @@ export default {
         login() {
             this.$refs.loginFormRef.validate(async(valid)=>{
                 //验证表单输入是否合法
-                if (!valid) return;
+                if (!valid) return this.$message.error("请正确填写个人信息！");
                 //通过Axios发送post请求，并将返回结果从promise使用 async await 过滤
                 const {data:res} = await this.$http.post('getUserModelByUserlogin',this.loginForm);
                 //验证登录
@@ -101,8 +106,8 @@ export default {
   height: 100px;
   width: 400px;
   left: 50%;
-  top: 50px;
-  transform: translate(-50% ,);
+  
+  transform: translate(-50% ,-175%);
 }
 
 .login_box {
@@ -147,4 +152,18 @@ export default {
     transform: translate(-50%);
   }
 }
+
+.logo_buttom {
+  width: 271.3px;
+  height: 50px;
+  position: absolute;;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%);
+
+}
+.img_logo {
+    height: 40px;
+   
+  }
 </style>
