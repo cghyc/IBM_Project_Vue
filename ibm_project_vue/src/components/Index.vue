@@ -119,10 +119,7 @@
   :show-close="false">
      <div class="add-form">
     <el-form ref="formRef" :model="form" label-width="70px" :rules="rules" class="demo-form" label-position="left">
-        <!--ID-->
-        <el-form-item label="ID" class="in" prop="id" >  
-          <el-input v-model="form.id" style="width:270px" placeholder="请输入员工ID"></el-input>
-        </el-form-item>
+        
         <!--名字-->
         <el-form-item label="名字" class="in" prop="name">
           <el-input v-model="form.name" style="width:270px" placeholder="请输入员工名字"></el-input>
