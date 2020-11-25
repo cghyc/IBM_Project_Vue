@@ -11,12 +11,7 @@
       </div>
       <!-- 登录表单区域 -->
       <el-form ref="registerFormRef" :model="registerForm" :rules="registerFormRules" label-width="0px" class="register_form">
-       
-       <!-- ID -->
-       <el-form-item prop="id">
-          <el-input v-model="registerForm.id"  prefix-icon="iconfont icon-id" placeholder="请输入ID">
-          </el-input>
-        </el-form-item>
+     
        
         <!-- 用户名 -->
         <el-form-item prop="username">
@@ -97,7 +92,6 @@ export default {
         return {
             //这是登录表单的数据绑定对象
             registerForm: {
-                id:'',
                 username:'',
                 realname:'',
                 password:'',
@@ -234,7 +228,7 @@ export default {
 
 .register_box {
   width: 450px;
-  height: 650px;
+  height: 570px;
   background-color: #fcfcfc;
   border-radius: 3px;
   position: absolute;
@@ -280,7 +274,7 @@ export default {
   height: 50px;
   position: absolute;;
   bottom: 0;
-  transform: translate(-120%,0);
+  transform: translate(-120%,100%);
  
 
 }

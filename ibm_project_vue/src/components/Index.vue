@@ -193,6 +193,7 @@
         dialogVisible: false,
         dialogFromVisible: false,
         tableData: [],
+        tableData1: [],
         id:'',
         table: false,
         dialog: false,
@@ -280,7 +281,8 @@
       },
       async getUsersList() {
         this.$http.get('/getAllEmployee').then(res=>{
-          this.tableData=res.data
+         this.tableData1=res.data
+          // console.log(this.tableData1)
         })
       },
       //员工信息删除方法
@@ -408,6 +410,13 @@
         })
         // console.log(current)
       },
+      thisPage(page){
+        page=this.form3.page;
+         this.handleCurrentPage(page);
+          
+        //  console.log(res.data);
+      },
+
 
 
        //饼图按钮
@@ -425,6 +434,9 @@
     },
     // 图表数据--------------------------------------------------------------------------
     drawLine1() {
+
+      this.getUsersList();
+      console.log(this.tableData1)
       // 基于准备好的dom，初始化echarts实例
       let myChart = this.$echarts.init(document.getElementById("myChart"));
        var low=0;
@@ -437,15 +449,15 @@
        var count2=0;
        var count3=0;
        var count4=0;
-       for(var i=0;i<this.tableData.length;i++)
+       for(var i=0;i<this.tableData1.length;i++)
        {
-         if(this.tableData[i].salary<2000){
+         if(this.tableData1[i].salary<2000){
            count++
-         }else if(this.tableData[i].salary>=2000&this.tableData[i].salary<5000){
+         }else if(this.tableData1[i].salary>=2000&this.tableData1[i].salary<5000){
            count1++
-         }else if(this.tableData[i].salary>=5000&this.tableData[i].salary<8000){
+         }else if(this.tableData1[i].salary>=5000&this.tableData1[i].salary<8000){
            count2++
-         }else if(this.tableData[i].salary>=8000&this.tableData[i].salary<10000){
+         }else if(this.tableData1[i].salary>=8000&this.tableData1[i].salary<10000){
             count3++
          }
            else{
@@ -634,6 +646,12 @@
 }
 
 .demo-drawer__footer{
-  left: 0px;
+  margin-left: 190px;
+  padding-right: 0px;
+  margin-right: 0px;
+
+  .button {
+    padding-right: 0px;
+  }
 }
 </style>

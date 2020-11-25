@@ -107,7 +107,7 @@ export default {
   width: 400px;
   left: 50%;
   
-  transform: translate(-50% ,-175%);
+  transform: translate(-50% ,-205%);
 }
 
 .login_box {
