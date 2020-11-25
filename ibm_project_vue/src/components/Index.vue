@@ -258,7 +258,7 @@
     },
 
     created() {
-      // this.getUsersList();
+      this.getUsersList();
        this.onePage();
     },
 
@@ -431,9 +431,9 @@
     },
     // 图表数据--------------------------------------------------------------------------
     drawLine1() {
-
-      this.getUsersList();
-      console.log(this.tableData1)
+      
+      // this.getUsersList();
+      // console.log(this.tableData1)
       // 基于准备好的dom，初始化echarts实例
       let myChart = this.$echarts.init(document.getElementById("myChart"));
        var low=0;
@@ -514,15 +514,15 @@
        var count2=0;
        var count3=0;
        var count4=0;
-       for(var i=0;i<this.tableData.length;i++)
+       for(var i=0;i<this.tableData1.length;i++)
        {
-         if(this.tableData[i].age<20){
+         if(this.tableData1[i].age<20){
            count++
-         }else if(this.tableData[i].age>=20&this.tableData[i].age<35){
+         }else if(this.tableData1[i].age>=20&this.tableData1[i].age<35){
            count1++
-         }else if(this.tableData[i].age>=35&this.tableData[i].age<45){
+         }else if(this.tableData1[i].age>=35&this.tableData1[i].age<45){
            count2++
-         }else if(this.tableData[i].age>=45&this.tableData[i].age<55){
+         }else if(this.tableData1[i].age>=45&this.tableData1[i].age<55){
             count3++
          }
            else{
