@@ -41,5 +41,6 @@ Vue.use(Drawer)
 Vue.use(Pagination)
 
 
+
 //将Message挂载到Vue的原型对象上，每个组件可以使用this.$message使用
 Vue.prototype.$message = Message
