@@ -37,10 +37,10 @@
         </el-form-item>
 
 
-        <el-form class="login-form" status-icon :rules="loginRules" ref="loginForm" :model="loginForm" label-width="0">
+        
 			    <!-- 随机验证码 输入框 -->
 			      <el-form-item prop="verifycode">
-				      <el-input v-model="loginForm.verifycode" placeholder="请输入验证码" class="identifyinput"></el-input>
+				      <el-input v-model="registerForm.verifycode" placeholder="请输入验证码" class="identifyinput"></el-input>
 			      </el-form-item>
 		    	<!-- 随机验证码 -->
 			    <el-form-item>
@@ -52,7 +52,7 @@
 					    <el-button @click="refreshCode" type='text' class="textbtn">看不清，换一张</el-button>
 				    </div>
 			    </el-form-item>
-		    </el-form>
+	
 
         <!-- 按钮 -->
         <el-form-item label-width="0px" class="btns">
@@ -96,6 +96,7 @@ export default {
                 realname:'',
                 password:'',
                 sex:'男',
+                verifycode: '',
             },
 
             //这是表单的验证规则对象
@@ -118,22 +119,18 @@ export default {
                     { required: true, message: '请输入登录密码', trigger: 'blur' },
                     { min: 1, max: 30, message: '长度在 1 到 30 个字符', trigger: 'blur' }
                 ],
+                verifycode: [
+						        { required: true, trigger: 'blur', validator: validateVerifycode },
+				      	],
                 
 
             },
 
-            loginForm: {
-					verifycode: ''
-				},
+        //     loginForm: {
+				// 	verifycode: ''
+				// },
 			identifyCodes: '1234567890',
 			identifyCode: '',
-			loginRules: { 
-					verifycode: [
-						{ required: true, trigger: 'blur', validator: validateVerifycode },
-					]
-			}
-			
-
         } 
     },
     components: {
@@ -175,8 +172,8 @@ export default {
           this.$refs.registerFormRef.validate(async(valid)=>{
             if (!valid) return this.$message.error('请正确填写注册信息！');
             const {data:res} = await this.$http.post('/register',this.registerForm);
-            if (!res) return this.$message.error('注册失败！');
-            this.$message.success('注册成功>-<');
+            if(res.eroCode !== 200) return this.$message.error(res.mess);
+                this.$message.success('注册成功>_<');
             this.$router.push('/login');
           })
         },

@@ -1,7 +1,24 @@
 <template>
   <div class="page-index">
 
-    <!-- 查询 -->
+  
+    <!--表格对话框-->
+    <el-dialog :visible.sync="dialogFun" width="650px" >
+      <div
+        id="myChart"
+        :style="{ width: '500px', height: '400px', margin: '0 auto' }"
+      ></div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogFun = false">取 消</el-button>
+      </span>
+    </el-dialog> 
+
+ 
+
+    <div class="page-find"> 
+
+
+      <!-- 查询 -->
   <div class="find">
       <el-form ref="formFind" :model="form_find"  :rules="rules" class="demo-form" label-position="left">
         <!--ID-->
@@ -16,20 +33,6 @@
     
       
     </div>
-
-
-    
-    <!--表格对话框-->
-    <el-dialog :visible.sync="dialogFun" width="650px" >
-      <div
-        id="myChart"
-        :style="{ width: '500px', height: '400px', margin: '0 auto' }"
-      ></div>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogFun = false">取 消</el-button>
-      </span>
-    </el-dialog> 
-    <div class="page-find">
      <!--表格-->
     <el-table
     :data="tableData"
@@ -93,7 +96,7 @@
   <el-pagination class="pag"
     background
     layout="prev, pager, next"
-    :current-page="currentPage"
+    :current-page.sync="currentPage"
     :page-size="pageSize"
     @current-change="handleCurrentPage"
     :total="total"
@@ -236,7 +239,8 @@
             { pattern: /^[1-9]\d*$/, message: '请输入数字' }
           ],
           name:[
-                 { required: true, message: '请输入员工姓名', trigger: 'blur' }
+                 { required: true, message: '请输入员工姓名', trigger: 'blur' },
+                 { min: 1, max: 30, message: '长度在 1 到 30 个字符', trigger: 'blur' }
               
           ],
           salary:[
@@ -401,6 +405,7 @@
           size: 8
         }).then(res=>{
           console.log(res.data)
+          this.currentPage=1
           this.tableData=res.data.rows
           this.total=res.data.total
           // console.log(res.page)
@@ -578,7 +583,7 @@
 
 .page-find{
     position:absolute;
-    top:150px;
+    top:50px;
     left: 300px;
     width:1000px;
     
@@ -634,8 +639,9 @@
 
 
 .find {
- margin-top: 16px;
- margin-left: 965px;
+    width: 500px;
+    margin-top: 27px;
+    margin-left: 690px;
 }
 
 /deep/ .el-dialog{
