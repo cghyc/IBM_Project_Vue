@@ -1,2 +1,1 @@
-# cgh_final
-hello word
+# IBM5班6组综合实训项目_员工信息管理系统_前端
