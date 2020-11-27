@@ -1,284 +1,280 @@
 <template>
+  <!-- 页面主体 -->
   <div class="page-index">
-    <div class="page-find">
-      <!-- 查询 -->
-      <div class="find">
+    <!-- 查询 -->
+    <div class="find">
+      <el-form
+        ref="formFind"
+        :model="form_find"
+        :rules="rules"
+        class="demo-form"
+        label-position="left"
+      >
+        <el-form-item label="" class="in" prop="text">
+          <el-input
+            v-model="form_find.text"
+            style="width: 270px"
+            placeholder="搜一搜"
+          ></el-input>
+          <el-button @click="find">搜一搜</el-button>
+          <el-button @click="find_exit">返回首页</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+    <!--展示主表格-->
+    <el-table
+      :data="tableData"
+      height="500"
+      :header-cell-style="{ color: '#000' }"
+      style="width: 100%"
+      class="query-table"
+    >
+      <!--ID-->
+      <el-table-column prop="id" label="ID" width="180"> </el-table-column>
+      <!--名字-->
+      <el-table-column prop="name" label="姓名" width="180"> </el-table-column>
+      <!--工资-->
+      <el-table-column prop="salary" label="工资" width="180">
+      </el-table-column>
+      <!--年龄-->
+      <el-table-column prop="age" label="年龄" width="180"> </el-table-column>
+
+      <el-table-column label="操作">
+        <template slot-scope="scope">
+          <el-button
+            size="mini"
+            type="danger"
+            @click="
+              handleDelete(scope.$index, scope.row), (dialogVisible = true)
+            "
+            >删除信息</el-button
+          >
+          <!--删除信息-->
+          <el-dialog
+            :show-close="false"
+            :visible.sync="dialogVisible"
+            width="30%"
+            :before-close="handleDelete"
+          >
+            <span class="di-text">删除信息不可恢复，请确认是否删除</span>
+            <span slot="footer" class="dialog-footer">
+              <el-button @click="dialogVisible = false">否</el-button>
+              <el-button type="primary" @click="del(), (dialogVisible = false)"
+                >是</el-button
+              >
+            </span>
+          </el-dialog>
+          <!--修改信息-->
+          <el-button
+            size="mini"
+            style="margin-left: 10px"
+            @click="handleEdit(scope.$index, scope.row), (dialogEdit = true)"
+            >修改信息
+          </el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <!-- 分页导航栏 -->
+    <el-pagination
+      class="pag"
+      background
+      layout="prev, pager, next"
+      :current-page.sync="currentPage"
+      :page-size="pageSize"
+      @current-change="handleCurrentPage"
+      :total="total"
+    >
+    </el-pagination>
+
+    <!--添加信息-->
+    <el-button
+      type="info"
+      round
+      size="mini"
+      @click="dialog = true"
+      class="button_add"
+      >添加员工信息</el-button
+    >
+    <!-- 导出数据 -->
+    <el-button
+      type="info"
+      round
+      size="mini"
+      @click="dialog_excel = true"
+      class="button_add"
+      >导出全部员工信息</el-button
+    >
+    <!-- 导出数据 -->
+    <el-button
+      type="info"
+      round
+      size="mini"
+      @click="dialog_excel_part = true"
+      class="button_add"
+      >导出本页员工信息</el-button
+    >
+
+    <!--员工添加抽屉-->
+    <el-dialog
+      title="添加员工信息"
+      :before-close="handleClose"
+      :visible.sync="dialog"
+      ref="drawer"
+      :show-close="false"
+    >
+      <div class="add-form">
         <el-form
-          ref="formFind"
-          :model="form_find"
+          ref="formRef"
+          :model="form"
+          label-width="70px"
           :rules="rules"
           class="demo-form"
           label-position="left"
         >
-          <el-form-item label="" class="in" prop="text">
+          <!--名字-->
+          <el-form-item label="名字" class="in" prop="name">
             <el-input
-              v-model="form_find.text"
+              v-model="form.name"
               style="width: 270px"
-              placeholder="搜一搜"
+              placeholder="请输入员工名字"
             ></el-input>
-            <el-button @click="find">搜一搜</el-button>
-            <el-button @click="find_exit">返回首页</el-button>
+          </el-form-item>
+          <!--工资-->
+          <el-form-item label="工资" class="in" prop="salary">
+            <el-input
+              v-model="form.salary"
+              style="width: 270px"
+              placeholder="请输入员工工资"
+            ></el-input>
+          </el-form-item>
+          <!--年龄-->
+          <el-form-item label="年龄" class="in" prop="age">
+            <el-input
+              v-model="form.age"
+              style="width: 270px"
+              placeholder="请输入员工年龄"
+            ></el-input>
           </el-form-item>
         </el-form>
+
+        <div class="demo-drawer__footer">
+          <el-button @click="cancelForm">取 消</el-button>
+          <el-button type="primary" @click="onAdd">添加</el-button>
+        </div>
       </div>
-      <!--展示主表格-->
-      <el-table
-        :data="tableData"
-        height="500"
-        :header-cell-style="{ color: '#000' }"
-        style="width: 100%"
-        class="query-table"
-      >
-        <!--ID-->
-        <el-table-column prop="id" label="ID" width="180"> </el-table-column>
-        <!--名字-->
-        <el-table-column prop="name" label="姓名" width="180">
-        </el-table-column>
-        <!--工资-->
-        <el-table-column prop="salary" label="工资" width="180">
-        </el-table-column>
-        <!--年龄-->
-        <el-table-column prop="age" label="年龄" width="180"> </el-table-column>
+    </el-dialog>
 
-        <el-table-column label="操作">
-          <template slot-scope="scope">
-            <el-button
-              size="mini"
-              type="danger"
-              @click="
-                handleDelete(scope.$index, scope.row), (dialogVisible = true)
-              "
-              >删除信息</el-button
-            >
-            <!--删除信息-->
-            <el-dialog
-              :show-close="false"
-              :visible.sync="dialogVisible"
-              width="30%"
-              :before-close="handleDelete"
-            >
-              <span class="di-text">删除信息不可恢复，请确认是否删除</span>
-              <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible = false">否</el-button>
-                <el-button
-                  type="primary"
-                  @click="del(), (dialogVisible = false)"
-                  >是</el-button
-                >
-              </span>
-            </el-dialog>
-            <!--修改信息-->
-            <el-button
-              size="mini"
-              style="margin-left: 10px"
-              @click="handleEdit(scope.$index, scope.row), (dialogEdit = true)"
-              >修改信息
-            </el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <!-- 分页导航栏 -->
-      <el-pagination
-        class="pag"
-        background
-        layout="prev, pager, next"
-        :current-page.sync="currentPage"
-        :page-size="pageSize"
-        @current-change="handleCurrentPage"
-        :total="total"
-      >
-      </el-pagination>
-
-      <!--添加信息-->
-      <el-button
-        type="info"
-        round
-        size="mini"
-        @click="dialog = true"
-        class="button_add"
-        >添加员工信息</el-button
-      >
-      <!-- 导出数据 -->
-      <el-button
-        type="info"
-        round
-        size="mini"
-        @click="dialog_excel = true"
-        class="button_add"
-        >导出全部员工信息</el-button
-      >
-      <!-- 导出数据 -->
-      <el-button
-        type="info"
-        round
-        size="mini"
-        @click="dialog_excel_part = true"
-        class="button_add"
-        >导出本页员工信息</el-button
-      >
-
-      <!--员工添加抽屉-->
-      <el-dialog
-        title="添加员工信息"
-        :before-close="handleClose"
-        :visible.sync="dialog"
-        ref="drawer"
-        :show-close="false"
-      >
-        <div class="add-form">
-          <el-form
-            ref="formRef"
-            :model="form"
-            label-width="70px"
-            :rules="rules"
-            class="demo-form"
-            label-position="left"
-          >
-            <!--名字-->
-            <el-form-item label="名字" class="in" prop="name">
-              <el-input
-                v-model="form.name"
-                style="width: 270px"
-                placeholder="请输入员工名字"
-              ></el-input>
-            </el-form-item>
-            <!--工资-->
-            <el-form-item label="工资" class="in" prop="salary">
-              <el-input
-                v-model="form.salary"
-                style="width: 270px"
-                placeholder="请输入员工工资"
-              ></el-input>
-            </el-form-item>
-            <!--年龄-->
-            <el-form-item label="年龄" class="in" prop="age">
-              <el-input
-                v-model="form.age"
-                style="width: 270px"
-                placeholder="请输入员工年龄"
-              ></el-input>
-            </el-form-item>
-          </el-form>
-
-          <div class="demo-drawer__footer">
-            <el-button @click="cancelForm">取 消</el-button>
-            <el-button type="primary" @click="onAdd">添加</el-button>
-          </div>
-        </div>
-      </el-dialog>
-
-      <!--员工修改抽屉-->
-      <el-dialog
-        title="修改员工信息"
-        :before-close="handleClose2"
-        :visible.sync="dialogEdit"
-        ref="drawer2"
-        :show-close="false"
-      >
-        <div class="add-form">
-          <el-form
-            ref="formRef2"
-            :model="form2"
-            label-width="70px"
-            :rules="rules"
-            class="demo-form"
-            label-position="left"
-          >
-            <!--ID-->
-            <el-form-item label="ID" class="in" prop="id">
-              <el-input
-                v-model="form2.id"
-                style="width: 270px"
-                placeholder="请输入员工ID"
-                :disabled="true"
-              ></el-input>
-            </el-form-item>
-            <!--名字-->
-            <el-form-item label="名字" class="in" prop="name">
-              <el-input
-                v-model="form2.name"
-                style="width: 270px"
-                placeholder="请输入员工名字"
-              ></el-input>
-            </el-form-item>
-            <!--工资-->
-            <el-form-item label="工资" class="in" prop="salary">
-              <el-input
-                v-model="form2.salary"
-                style="width: 270px"
-                placeholder="请输入员工工资"
-              ></el-input>
-            </el-form-item>
-            <!--年龄-->
-            <el-form-item label="年龄" class="in" prop="age">
-              <el-input
-                v-model="form2.age"
-                style="width: 270px"
-                placeholder="请输入员工年龄"
-              ></el-input>
-            </el-form-item>
-          </el-form>
-
-          <div class="demo-drawer__footer">
-            <el-button @click="cancelForm2">取 消</el-button>
-            <el-button type="primary" @click="onEdit">修改</el-button>
-          </div>
-        </div>
-      </el-dialog>
-
-      <!--统计表格按钮-->
-      <div class="button_tj">
-        <el-button @click="dialogFun1" type="info" round size="mini"
-          >工资份额统计</el-button
+    <!--员工修改抽屉-->
+    <el-dialog
+      title="修改员工信息"
+      :before-close="handleClose2"
+      :visible.sync="dialogEdit"
+      ref="drawer2"
+      :show-close="false"
+    >
+      <div class="add-form">
+        <el-form
+          ref="formRef2"
+          :model="form2"
+          label-width="70px"
+          :rules="rules"
+          class="demo-form"
+          label-position="left"
         >
-        <el-button @click="dialogFun2" type="info" round size="mini"
-          >年龄分布统计</el-button
-        >
+          <!--ID-->
+          <el-form-item label="ID" class="in" prop="id">
+            <el-input
+              v-model="form2.id"
+              style="width: 270px"
+              placeholder="请输入员工ID"
+              :disabled="true"
+            ></el-input>
+          </el-form-item>
+          <!--名字-->
+          <el-form-item label="名字" class="in" prop="name">
+            <el-input
+              v-model="form2.name"
+              style="width: 270px"
+              placeholder="请输入员工名字"
+            ></el-input>
+          </el-form-item>
+          <!--工资-->
+          <el-form-item label="工资" class="in" prop="salary">
+            <el-input
+              v-model="form2.salary"
+              style="width: 270px"
+              placeholder="请输入员工工资"
+            ></el-input>
+          </el-form-item>
+          <!--年龄-->
+          <el-form-item label="年龄" class="in" prop="age">
+            <el-input
+              v-model="form2.age"
+              style="width: 270px"
+              placeholder="请输入员工年龄"
+            ></el-input>
+          </el-form-item>
+        </el-form>
+
+        <div class="demo-drawer__footer">
+          <el-button @click="cancelForm2">取 消</el-button>
+          <el-button type="primary" @click="onEdit">修改</el-button>
+        </div>
       </div>
+    </el-dialog>
 
-      <!--统计展示表格对话框-->
-      <el-dialog :visible.sync="dialogFun" width="650px">
-        <div
-          id="myChart"
-          :style="{ width: '500px', height: '400px', margin: '0 auto' }"
-        ></div>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="dialogFun = false">取 消</el-button>
-        </span>
-      </el-dialog>
-
-      <!--导出全部数据弹窗-->
-      <el-dialog
-        title="导出全部员工信息到Excel"
-        :before-close="handleClose_excel"
-        :visible.sync="dialog_excel"
-        ref="drawer"
-        :show-close="false"
+    <!--统计表格按钮-->
+    <div class="button_tj">
+      <el-button @click="dialogFun1" type="info" round size="mini"
+        >工资份额统计</el-button
       >
-        <div class="add-form">
-          <div class="demo-drawer__footer">
-            <el-button @click="cancelForm_excel">取 消</el-button>
-            <el-button type="primary" @click="onAdd_excel">导出</el-button>
-          </div>
-        </div>
-      </el-dialog>
-
-      <!--导出本页数据弹窗-->
-      <el-dialog
-        title="导出本页员工信息到Excel"
-        :before-close="handleClose_excel_part"
-        :visible.sync="dialog_excel_part"
-        ref="drawer"
-        :show-close="false"
+      <el-button @click="dialogFun2" type="info" round size="mini"
+        >年龄分布统计</el-button
       >
-        <div class="add-form">
-          <div class="demo-drawer__footer">
-            <el-button @click="cancelForm_excel_part">取 消</el-button>
-            <el-button type="primary" @click="onAdd_excel_part">导出</el-button>
-          </div>
-        </div>
-      </el-dialog>
     </div>
+
+    <!--统计展示表格对话框-->
+    <el-dialog :visible.sync="dialogFun" width="650px">
+      <div
+        id="myChart"
+        :style="{ width: '500px', height: '400px', margin: '0 auto' }"
+      ></div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogFun = false">取 消</el-button>
+      </span>
+    </el-dialog>
+
+    <!--导出全部数据弹窗-->
+    <el-dialog
+      title="导出全部员工信息到Excel"
+      :before-close="handleClose_excel"
+      :visible.sync="dialog_excel"
+      ref="drawer"
+      :show-close="false"
+    >
+      <div class="add-form">
+        <div class="demo-drawer__footer">
+          <el-button @click="cancelForm_excel">取 消</el-button>
+          <el-button type="primary" @click="onAdd_excel">导出</el-button>
+        </div>
+      </div>
+    </el-dialog>
+
+    <!--导出本页数据弹窗-->
+    <el-dialog
+      title="导出本页员工信息到Excel"
+      :before-close="handleClose_excel_part"
+      :visible.sync="dialog_excel_part"
+      ref="drawer"
+      :show-close="false"
+    >
+      <div class="add-form">
+        <div class="demo-drawer__footer">
+          <el-button @click="cancelForm_excel_part">取 消</el-button>
+          <el-button type="primary" @click="onAdd_excel_part">导出</el-button>
+        </div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -583,7 +579,6 @@ export default {
         if (typeof console !== "undefined") console.log(e, wbout);
       }
       return wbout;
-      
     },
 
     //首页方法
@@ -788,7 +783,7 @@ export default {
   margin-left: 688px;
 }
 //主表格
-.page-find {
+.page-index {
   position: absolute;
   top: 50px;
   left: 300px;
